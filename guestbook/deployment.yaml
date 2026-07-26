@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: web
-        image: nginx:latest
+        image: ghcr.io/joshiehsu/argocd-lab-web:3be3ae428bcfbd576c4747adadcfd4254a1ffc9b
         ports:
         - containerPort: 80
