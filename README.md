@@ -1,2 +1,1 @@
 # argocdlab
-test
