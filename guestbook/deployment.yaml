@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/joshiehsu/argocd-lab-web:3be3ae428bcfbd576c4747adadcfd4254a1ffc9b
+        image: ghcr.io/joshiehsu/argocd-lab-web:27bb81591d2f270f53537af3471f58f00c6d535b
         ports:
         - containerPort: 80
