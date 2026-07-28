@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook-ui
+  namespace: default
+spec:
+  # 這裡的數字不再寫死，而是去讀取 values.yaml 裡面的設定
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: guestbook-ui
+  template:
+    metadata:
+      labels:
+        app: guestbook-ui
+    spec:
+      containers:
+      - name: web
+        # 這裡的 Image 網址也變成變數拼裝
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 80
