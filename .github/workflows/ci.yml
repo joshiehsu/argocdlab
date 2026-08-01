@@ -7,6 +7,7 @@ on:
     paths:
       - 'src/**'
       - 'Dockerfile'
+      - '.github/workflows/**'
 
 jobs:
   build-and-update:
@@ -34,12 +35,24 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/argocd-lab-web:${{ github.sha }}
 
-      - name: 📝 更新 Kubernetes YAML 檔裡面的 Image 標籤
+
+      - name: 📝 更新 Helm YAML 檔裡面的 Image 標籤
         run: |
-          sed -i "s|image: .*|image: ghcr.io/${{ github.repository_owner }}/argocd-lab-web:${{ github.sha }}|g" guestbook/deployment.yaml
+          sed -i "s|tag: .*|tag: ${{ github.sha }}|g" guestbook-helm/values.yaml
 
       - name: 🚀 自動 Commit 並 Push 變更
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto-update image tag to ${{ github.sha }}"
-          file_pattern: "guestbook/deployment.yaml"
+          file_pattern: "guestbook-helm/values.yaml"
+     
+     
+            #      - name: 📝 更新 Kubernetes YAML 檔裡面的 Image 標籤
+            # run: |
+            # sed -i "s|image: .*|image: ghcr.io/${{ github.repository_owner }}/argocd-lab-web:${{ github.sha }}|g" guestbook/values.yaml
+
+            # - name: 🚀 自動 Commit 並 Push 變更
+            # uses: stefanzweifel/git-auto-commit-action@v5
+            # with:
+            # commit_message: "Auto-update image tag to ${{ github.sha }}"
+            # file_pattern: "guestbook/deployment.yaml"

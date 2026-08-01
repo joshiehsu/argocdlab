@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: guestbook-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx # 假設你使用的是 nginx controller
+  rules:
+  - host: guestbook.local # 這就是你自訂的假網域
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: guestbook-ui # 告訴 Ingress 把流量轉給剛剛建的 Service
+            port:
+              number: 80
