@@ -160,13 +160,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-# 在 values.yaml 底部新增流量分流相關參數
-trafficSplit:
+  # 在 values.yaml 底部新增流量分流相關參數
+ trafficSplit:
   enabled: true
   routes:
     - version: v1
       weight: 70
-      imageTag: "舊的commit亂碼"
+      imageTag: "v1"       # <-- 改成固定標籤，例如 v1
     - version: v2
       weight: 30
-      imageTag: "要被自動更新的亂碼"
+      imageTag: "v2"       # <-- 改成固定標籤，例如 v2
