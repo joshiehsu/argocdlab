@@ -160,7 +160,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-  # 在 values.yaml 底部新增流量分流相關參數
+  
  trafficSplit:
   enabled: true
   routes:
