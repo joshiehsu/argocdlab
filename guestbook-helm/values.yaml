@@ -165,8 +165,8 @@ trafficSplit:
   enabled: true
   routes:
     - version: v1
-      weight: 70       # 70% 的流量
-      imageTag: "thisisoldpod-old"
+      weight: 70
+      imageTag: "舊的commit亂碼"
     - version: v2
-      weight: 30       # 30% 的流量
-      imageTag: "thisisnewpod-new"
+      weight: 30
+      imageTag: "要被自動更新的亂碼"

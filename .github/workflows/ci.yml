@@ -7,8 +7,6 @@ on:
     paths:
       - 'src/**'
       - 'Dockerfile'
-        # - '.github/workflows/**'
-        #   - 'guestbook-helm/**'
 
 jobs:
   build-and-update:
@@ -36,24 +34,26 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/argocd-lab-web:${{ github.sha }}
 
-
-      - name: 📝 更新 Helm YAML 檔裡面的 Image 標籤
+      - name: 📝 精準更新 Helm YAML 裡 v2 的 Image Tag
         run: |
-          sed -i "s|tag: .*|tag: ${{ github.sha }}|g" guestbook-helm/values.yaml
+          # 這裡使用 python 來安全地修改 yaml，避免 sed 抓錯行
+          python3 -c "
+          import yaml
+          path = 'guestbook-helm/values.yaml'
+          with open(path, 'r') as f:
+              data = yaml.safe_load(f)
+          
+          # 尋找 routes 裡面 version 為 v2 的項目並更新 imageTag
+          for route in data.get('trafficSplit', {}).get('routes', []):
+              if route.get('version') == 'v2':
+                  route['imageTag'] = '${{ github.sha }}'
+          
+          with open(path, 'w') as f:
+              yaml.safe_dump(data, f, sort_keys=False)
+          "
 
       - name: 🚀 自動 Commit 並 Push 變更
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Auto-update image tag to ${{ github.sha }}"
+          commit_message: "Auto-update v2 image tag to ${{ github.sha }}"
           file_pattern: "guestbook-helm/values.yaml"
-     
-     
-            #      - name: 📝 更新 Kubernetes YAML 檔裡面的 Image 標籤
-            # run: |
-            # sed -i "s|image: .*|image: ghcr.io/${{ github.repository_owner }}/argocd-lab-web:${{ github.sha }}|g" guestbook/values.yaml
-
-            # - name: 🚀 自動 Commit 並 Push 變更
-            # uses: stefanzweifel/git-auto-commit-action@v5
-            # with:
-            # commit_message: "Auto-update image tag to ${{ github.sha }}"
-            # file_pattern: "guestbook/deployment.yaml"
