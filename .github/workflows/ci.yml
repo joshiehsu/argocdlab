@@ -8,6 +8,7 @@ on:
       - 'src/**'
       - 'Dockerfile'
       - '.github/workflows/**'
+      - 'guestbook-helm/**'
 
 jobs:
   build-and-update:
