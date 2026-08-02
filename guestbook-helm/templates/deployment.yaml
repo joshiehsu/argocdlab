@@ -6,7 +6,8 @@ metadata:
   name: guestbook-ui-{{ .version }}   # 讓 Deployment 名稱帶有版本區分（例如 guestbook-ui-v1）
   namespace: default
 spec:
-  replicas: 2                       # 每個版本要跑幾個 Pod
+  replicas: 2     # 每個版本要跑幾個 Pod
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: guestbook-ui
