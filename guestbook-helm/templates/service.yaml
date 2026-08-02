@@ -4,10 +4,9 @@ metadata:
   name: guestbook-ui
   namespace: default
 spec:
-  type: ClusterIP # 改成 ClusterIP 模式
+  type: {{ .Values.service.type }}
   selector:
-    app: guestbook-ui 
+    app: guestbook-ui
   ports:
-    - port: 80
-      targetPort: 80
-      # nodePort 已經徹底移除了
+    - port: {{ .Values.service.port }}          
+      targetPort: {{ .Values.service.targetPort }} 

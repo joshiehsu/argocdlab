@@ -7,8 +7,8 @@ on:
     paths:
       - 'src/**'
       - 'Dockerfile'
-      - '.github/workflows/**'
-      - 'guestbook-helm/**'
+        # - '.github/workflows/**'
+        #   - 'guestbook-helm/**'
 
 jobs:
   build-and-update:
