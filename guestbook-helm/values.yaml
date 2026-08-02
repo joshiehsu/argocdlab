@@ -160,3 +160,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+# 在 values.yaml 底部新增流量分流相關參數
+trafficSplit:
+  enabled: true
+  routes:
+    - version: v1
+      weight: 70       # 70% 的流量
+      imageTag: "thisisoldpod-old"
+    - version: v2
+      weight: 30       # 30% 的流量
+      imageTag: "thisisnewpod-new"

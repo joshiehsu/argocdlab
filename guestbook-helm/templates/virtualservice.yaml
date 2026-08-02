@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: guestbook-vs
+  namespace: default
+spec:
+  hosts:
+    - "guestbook.local"   # 對應你原本 Ingress 的網域
+  http:
+    - route:
+        - destination:
+            host: guestbook-ui
+            subset: v1
+          weight: 70      # 70% 流量導向 v1
+        - destination:
+            host: guestbook-ui
+            subset: v2
+          weight: 30      # 30% 流量導向 v2

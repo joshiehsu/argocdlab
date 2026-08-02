@@ -1,22 +1,25 @@
+{{- range .Values.trafficSplit.routes }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guestbook-ui
+  name: guestbook-ui-{{ .version }}   # 讓 Deployment 名稱帶有版本區分（例如 guestbook-ui-v1）
   namespace: default
 spec:
-  # 這裡的數字不再寫死，而是去讀取 values.yaml 裡面的設定
-  replicas: {{ .Values.replicaCount }}
+  replicas: 2                       # 每個版本要跑幾個 Pod
   selector:
     matchLabels:
       app: guestbook-ui
+      version: {{ .version }}       # 關鍵：選擇器對應版本
   template:
     metadata:
       labels:
         app: guestbook-ui
+        version: {{ .version }}     # 關鍵：這就是貼給 Pod 看的身分標籤（v1 或 v2）！
     spec:
       containers:
-      - name: web
-        # 這裡的 Image 網址也變成變數拼裝
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        ports:
-        - containerPort: 80
+        - name: web
+          image: "{{ $.Values.image.repository }}:{{ .imageTag }}"  # 對應不同版本的 Image Tag
+          ports:
+            - containerPort: 80
+{{- end }}
